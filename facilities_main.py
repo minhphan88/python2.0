@@ -1,7 +1,16 @@
 from fastapi import FastAPI
 
-myFirstapp = FastAPI()
+app = FastAPI()
 
-@myFirstapp.get("/")
-async def root():
-    return {"message": "Hello trisejasfdsfnksdgfnjdfngdfg"}
+
+class UserIn(BaseModel):
+    username: str
+    password: str
+    email: EmailStr
+    full_name: str = None
+
+
+# Don't do this in production!
+@app.post("/user/", response_model=UserIn)
+async def create_user(*, user: UserIn):
+    return user
